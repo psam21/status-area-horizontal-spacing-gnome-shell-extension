@@ -45,4 +45,4 @@ export default class Prefs extends ExtensionPreferences {
 		window.set_focus(scale);
     }
 
-}	
+}
