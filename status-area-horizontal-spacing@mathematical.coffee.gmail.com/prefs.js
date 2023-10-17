@@ -6,8 +6,6 @@ import { ExtensionPreferences, gettext as _ } from 'resource:///org/gnome/Shell/
 export default class Prefs extends ExtensionPreferences {
 
     fillPreferencesWindow(window) {
-        this._settings = this.getSettings();
-
         const width = 750;
         const height = 580;
         window.set_default_size(width, height);
@@ -23,6 +21,7 @@ export default class Prefs extends ExtensionPreferences {
     }
 
     addSlider(group, key, labelText, lower, upper, decimalDigits) {
+        const settings = this.getSettings();
         const scale = new Gtk.Scale({
             digits: decimalDigits,
             adjustment: new Gtk.Adjustment({lower: lower, upper: upper}),
@@ -31,9 +30,9 @@ export default class Prefs extends ExtensionPreferences {
             halign: Gtk.Align.END
         });
         scale.set_draw_value(true);    
-        scale.set_value(this._settings.get_int(key));
+        scale.set_value(settings.get_int(key));
         scale.connect("value-changed", (sw) => {
-            this._settings.set_int(key, sw.get_value());
+            settings.set_int(key, sw.get_value());
         });
         scale.set_size_request(400, 15);
 
