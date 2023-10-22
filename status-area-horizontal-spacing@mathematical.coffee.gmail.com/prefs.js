@@ -6,25 +6,19 @@ import { ExtensionPreferences, gettext as _ } from 'resource:///org/gnome/Shell/
 export default class Prefs extends ExtensionPreferences {
 
     fillPreferencesWindow(window) {
-        const width = 750;
-        const height = 580;
-        window.set_default_size(width, height);
-
-        const page = Adw.PreferencesPage.new();
-
-        const group = Adw.PreferencesGroup.new();
-        this.addSlider(group, "hpadding", _("Horizontal Padding"), 0, 12, 0);
-
-        page.add(group);
-
-        window.add(page);
-    }
-
-    addSlider(group, key, labelText, lower, upper, decimalDigits) {
         const settings = this.getSettings();
+
+		const windowWidth = 750;
+		const windowHeight = 580;
+		const minValue = 0.0;
+		const maxValue = 12.0;
+		const increment = 1.0;
+		const decimalDigits = 0;
+		const key = "hpadding";
+        
         const scale = new Gtk.Scale({
             digits: decimalDigits,
-            adjustment: new Gtk.Adjustment({lower: lower, upper: upper}),
+            adjustment: new Gtk.Adjustment({lower: minValue, upper: maxValue, step_increment: increment, page_increment: increment}),
             value_pos: Gtk.PositionType.RIGHT,
             hexpand: true, 
             halign: Gtk.Align.END
@@ -37,11 +31,18 @@ export default class Prefs extends ExtensionPreferences {
         scale.set_size_request(400, 15);
 
         const row = Adw.ActionRow.new();
-        row.set_title(labelText);
+        row.set_title(_("Horizontal Padding"));
         row.add_suffix(scale);
+
+        const group = Adw.PreferencesGroup.new();
         group.add(row);
 
-        return scale;
+        const page = Adw.PreferencesPage.new();
+        page.add(group);
+
+        window.set_default_size(windowWidth, windowHeight);
+        window.add(page);
+		window.set_focus(scale);
     }
 
 }
