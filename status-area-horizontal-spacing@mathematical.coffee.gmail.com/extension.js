@@ -149,7 +149,7 @@ export default class StatusAreaHorizontalSpacingExtension extends Extension {
         }
 
         /* connect signal */
-        this.actorAddedID = Main.panel._rightBox.connect('actor-added', (container, actor) => {
+        this.actorAddedID = Main.panel._rightBox.connect('child-added', (container, actor) => {
             this.overrideStyle(actor);
         });
     }
