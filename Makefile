@@ -7,14 +7,13 @@ default_target: all
 .PHONY: clean all zip
 
 clean:
-	rm -f $(EXTENSION)$(EXTENSION_BASE).zip $(EXTENSION)$(EXTENSION_BASE)/schemas/gschemas.compiled
+	rm -f $(EXTENSION)$(EXTENSION_BASE).shell-extension.zip $(EXTENSION)$(EXTENSION_BASE)/schemas/gschemas.compiled
 
 # nothing in this target, just make the zip
-all:
-	@if [ -d $(EXTENSION)$(EXTENSION_BASE)/schemas ]; then \
-		glib-compile-schemas $(EXTENSION)$(EXTENSION_BASE)/schemas; \
-	fi
+all: $(EXTENSION)$(EXTENSION_BASE)/schemas/gschemas.compiled
+
+$(EXTENSION)$(EXTENSION_BASE)/schemas/gschemas.compiled: $(EXTENSION)$(EXTENSION_BASE)/schemas/org.gnome.shell.extensions.status-area-horizontal-spacing.gschema.xml
+	glib-compile-schemas $(EXTENSION)$(EXTENSION_BASE)/schemas
 
 zip: all
-	(cd $(EXTENSION)$(EXTENSION_BASE); \
-		zip -rq ../$(EXTENSION)$(EXTENSION_BASE).zip $(FILES) -x '*.po')
+	gnome-extensions pack --force $(EXTENSION)$(EXTENSION_BASE)
