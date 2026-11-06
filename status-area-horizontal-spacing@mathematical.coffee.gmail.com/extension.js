@@ -1,17 +1,15 @@
 /**
  * StatusAreaHorizontalSpacing extension
- * v2.1.5
+ * v2.1.6
  *
- * This extension essentially modifies the "-natural-hpadding"
- * attribute of panel-buttons (i.e. indicators in the status area)
- * so that they can be closer together.
+ * This extension sets the "-natural-hpadding" attribute on panel buttons
+ * in the right side of the panel so that status indicators can be closer
+ * together.
  *
- * The default is 12.
+ * The extension default is 6px; GNOME Shell's default is 12px.
  *
- * It does this by using 'set_style' to override the '-natural-hpadding'
- * property of anything added to Main.panel._rightBox.
- * It listens to the 'add-actor' signal of Main.panel._rightBox to override
- * the style.
+ * It uses 'set_style' to override '-natural-hpadding' and listens to the
+ * 'child-added' signal of Main.panel._rightBox to handle new indicators.
  *
  * 2012 mathematical.coffee@gmail.com
  */
